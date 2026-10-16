@@ -74,22 +74,22 @@ fi
 # white 255 255 255
 
 while true; do
-    for i in $(seq 0 5 255); do
+    for i in $(seq 0 1 255); do
         set_rgb $(R1_stopper $((91 + i))) $(G1_stopper $((206 - i))) $(B1_stopper $((250 - i)))        #light blue to pink
         sleep 0.5
     done
 
-    for i in $(seq 0 5 255); do
+    for i in $(seq 0 1 255); do
         set_rgb $(C2_stopper $((245 + i))) $(C2_stopper $((169 + i))) $(C2_stopper $((184 + i)))       # pink to white
         sleep 0.5
     done
 
-    for i in $(seq 0 5 255); do
+    for i in $(seq 0 1 255); do
         set_rgb $(R3_stopper $((255 - i))) $(R3_stopper $((255 - i))) $(R3_stopper $((255 - i)))       # white to pink
         sleep 0.5
     done
 
-    for i in $(seq 0 5 255); do
+    for i in $(seq 0 1 255); do
         set_rgb $(R4_stopper $((245 - i))) $(R4_stopper $((169 + i))) $(R4_stopper $((184 + i)))       # pink to light blue
         sleep 0.5
     done
