@@ -94,7 +94,7 @@ while true; do
     done
 
     for i in $(seq 0 5 255); do
-        set_rgb $(R3_stopper $((255))) $(R3_stopper $((255 - i))) $(R3_stopper $((255 - i)))       # white to pink
+        set_rgb $(R3_stopper $((255))) $(G3_stopper $((255 - i))) $(B3_stopper $((255 - i)))       # white to pink
         sleep 0.005
     done
 
