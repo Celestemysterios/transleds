@@ -60,13 +60,13 @@ fi
 }
 
 R4_stopper() {                      # fourth and last transition
-if [ "$1" -lt 78 ]; then echo 76
+if [ "$1" -lt 91 ]; then echo 91
 else echo "$1"
 fi
 }
 
 G4_stopper() {
-if [ "$1" -gt 219 ]; then echo 219
+if [ "$1" -gt 172 ]; then echo 172
 else echo "$1"
 fi
 }
@@ -77,7 +77,7 @@ else echo "$1"
 fi
 }              
 
-# light blue 76 219 255
+# light blue 91 172 255
 
 # pink 255 94 192
 
@@ -85,7 +85,7 @@ fi
 
 while true; do
     for i in $(seq 0 5 255); do
-        set_rgb $(R1_stopper $((76 + i))) $(G1_stopper $((219 - i))) $(B1_stopper $((255 - i)))        #light blue to pink
+        set_rgb $(R1_stopper $((91 + i))) $(G1_stopper $((172 - i))) $(B1_stopper $((255 - i)))        #light blue to pink
         sleep 0.005
     done
 
