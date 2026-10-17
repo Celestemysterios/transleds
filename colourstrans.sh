@@ -48,13 +48,14 @@ fi
 }
 
 G3_stopper() {
-if [ "$1" -lt 169 ]; then echo 169
+if [ "$1" -lt 94 ]; then echo 94
 else echo "$1"
 fi
 }
 
 B3_stopper() {
 if [ "$1" -lt 192 ]; then echo 192
+else echo "$1"
 fi
 }
 
