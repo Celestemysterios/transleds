@@ -3,6 +3,12 @@
 RED_LED="/sys/class/leds/red/brightness"
 GREEN_LED="/sys/class/leds/green/brightness"
 BLUE_LED="/sys/class/leds/blue/brightness"
+red=(255 255 255 91)
+green=(94 255 94 172)
+blue=(192 255 192 255)
+golR=
+golG=
+golB=
 
 set_rgb() {
     echo "$1" > "$RED_LED"
@@ -10,72 +16,72 @@ set_rgb() {
     echo "$3" > "$BLUE_LED"
 }
 
+lessormorecalcR() {
+    for i in "${red[@]}"; do
+        if [ $((i - ${red[-1]})) -le -1 ];  then  golR=L
+        elif [ $((i - ${red[-1]})) -ge 1 ];  then golR=G
+    fi
+done 
+}
+
+lessormoreR() {
+    if  golR=L;  then echo "(($1 - i))"
+    elif golR=G;  then echo "(($1 + i))"
+fi 
+}
+
+Rstopper() {
+    if [ "$1" -gt "${red[*]}" ]; then echo "${red[@]}"; 
+    elif [ "$1" -lt "${red[*]}" ]; then echo "${red[@]}"; 
+    else echo "$1"
+fi
+}
+
+lessormorecalcG() {
+    for i in ${green[*]}; do
+if [ $((i - ${green[-1]})) -le -1 ];  then  golG=L
+elif [ $((i - ${green[-1]})) -ge 1 ];  then golG=G
+fi
+done }
+
+lessormoreG() {
+if  golG=L;  then echo "(($1 - i))"
+elif golG=G;  then echo "(($1 + i))"
+fi }
+
+Gstopper() {
+    if [ "$1" -gt "${green[*]}" ]; then echo "${green[@]}"; 
+    elif [ "$1" -lt "${green[*]}" ]; then echo "${green[@]}"; 
+    else echo "$1"
+    fi
+}
+
+ lessormorecalcB() {
+    for i in "${blue[@]}"; do
+if [ $((i - ${blue[-1]})) -le -1 ];  then  golB=L
+elif [ $((i - ${blue[-1]})) -ge 1 ];  then golB=G
+fi
+done }
+
+lessormoreB() {
+if  golB=L;  then echo "(($1 - i))"
+elif golB=G;  then echo "(($1 + i))"
+fi }
+
+Bstopper() {
+    if [ "$1" -gt "${blue[*]}" ]; then echo "${blue[@]}"; 
+    elif [ "$1" -lt "${blue[*]}" ]; then echo "${blue[@]}"; 
+    else echo "$1"
+    fi
+}
+
+
 clamp() {
     if [ "$1" -lt 0 ]; then echo 0
     elif [ "$1" -gt 255 ]; then echo 255
     else echo "$1"
     fi
 }
-
-R1_stopper() {                        # first transition
-if [ "$1" -gt 255 ]; then echo 255
-else echo "$1"
-fi
-}
-
-G1_stopper() {
-if [ "$1" -lt 94 ]; then echo 94
-else echo "$1"
-fi
-}
-
-B1_stopper() {
-if [ "$1" -lt 192 ]; then echo 192
-else echo "$1"
-fi
-}
-
-C2_stopper() {                       # second transition
-if [ "$1" -gt 255 ]; then echo 255
-else echo "$1"
-fi
-}
-
-R3_stopper() {                       # third transition
-if [ "$1" -lt 255 ]; then echo 255
-else echo "$1"
-fi
-}
-
-G3_stopper() {
-if [ "$1" -lt 94 ]; then echo 94
-else echo "$1"
-fi
-}
-
-B3_stopper() {
-if [ "$1" -lt 192 ]; then echo 192
-else echo "$1"
-fi
-}
-
-R4_stopper() {                      # fourth and last transition
-if [ "$1" -lt 91 ]; then echo 91
-else echo "$1"
-fi
-}
-
-G4_stopper() {
-if [ "$1" -gt 172 ]; then echo 172
-else echo "$1"
-fi
-}
-
-B4_stopper() {
-if [ "$1" -gt 255 ]; then echo 255
-else echo "$1"
-fi
-}              
 
 # light blue 91 172 255
 
@@ -85,22 +91,7 @@ fi
 
 while true; do
     for i in $(seq 0 5 255); do
-        set_rgb $(R1_stopper $((91 + i))) $(G1_stopper $((172 - i))) $(B1_stopper $((255 - i)))        #light blue to pink
-        sleep 0.005
-    done
-
-    for i in $(seq 0 5 255); do
-        set_rgb $(C2_stopper $((255))) $(C2_stopper $((94 + i))) $(C2_stopper $((192 + i)))       # pink to white
-        sleep 0.005
-    done
-
-    for i in $(seq 0 5 255); do
-        set_rgb $(R3_stopper $((255))) $(G3_stopper $((255 - i))) $(B3_stopper $((255 - i)))       # white to pink
-        sleep 0.005
-    done
-
-    for i in $(seq 0 5 255); do
-        set_rgb $(R4_stopper $((255 - i))) $(G4_stopper $((94 + i))) $(B4_stopper $((192 + i)))       # pink to light blue
+        set_rgb $(Rstopper $(lessormoreR $(()))) $(Gstopper $(lessormoreG $(()))) $(Bstopper $(lessormoreR $(())))
         sleep 0.005
     done
 done 
