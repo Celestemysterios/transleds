@@ -18,8 +18,8 @@ set_rgb() {
 
 lessormorecalcR() {
     for i in "${red[@]}"; do
-        if [ $((i - ${red[-1]})) -le -1 ];  then  golR=L
-        elif [ $((i - ${red[-1]})) -ge 1 ];  then golR=G
+        if [ $((${red[@]} - ${red[-1]})) -le -1 ];  then  golR=L
+        elif [ $((${red[@]} - ${red[-1]})) -ge 1 ];  then golR=G
     fi
 done 
 }
@@ -38,9 +38,9 @@ fi
 }
 
 lessormorecalcG() {
-    for i in ${green[*]}; do
-if [ $((i - ${green[-1]})) -le -1 ];  then  golG=L
-elif [ $((i - ${green[-1]})) -ge 1 ];  then golG=G
+    for i in "${green[@]}"; do
+if [ $(( ${green[@]} - ${green[-1]})) -le -1 ];  then  golG=L
+elif [ $((${green[@]} - ${green[-1]})) -ge 1 ];  then golG=G
 fi
 done }
 
@@ -58,14 +58,14 @@ Gstopper() {
 
  lessormorecalcB() {
     for i in "${blue[@]}"; do
-if [ $((i - ${blue[-1]})) -le -1 ];  then  golB=L
-elif [ $((i - ${blue[-1]})) -ge 1 ];  then golB=G
+if [ $((${blue[@]} - ${blue[-1]})) -le -1 ];  then  golB=L
+elif [ $((${blue[@]} - ${blue[-1]})) -ge 1 ];  then golB=G
 fi
 done }
 
 lessormoreB() {
-if  golB=L;  then echo "(($1 - i))"
-elif golB=G;  then echo "(($1 + i))"
+    if  golB=L;  then echo "(($1 - i))"
+   elif golB=G;  then echo "(($1 + i))"
 fi }
 
 Bstopper() {
@@ -90,8 +90,11 @@ clamp() {
 # white 255 255 255
 
 while true; do
-    for i in $(seq 0 5 255); do
-        set_rgb $(Rstopper $(lessormoreR $(()))) $(Gstopper $(lessormoreG $(()))) $(Bstopper $(lessormoreR $(())))
-        sleep 0.005
-    done
+    lessormorecalcR
+    lessormorecalcG
+    lessormorecalcB
+        for i in $(seq 0 5 255); do
+            set_rgb "$(Rstopper "$(lessormoreR $(()))")" "$(Gstopper "$(lessormoreG $(()))")" "$(Bstopper "$(lessormoreR $(()))")"
+            sleep 0.005
+        done
 done 
