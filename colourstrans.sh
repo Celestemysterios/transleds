@@ -3,9 +3,9 @@
 RED_LED="/sys/class/leds/red/brightness"
 GREEN_LED="/sys/class/leds/green/brightness"
 BLUE_LED="/sys/class/leds/blue/brightness"
-red=(255 255 255 91)
-green=(94 255 94 172)
-blue=(192 255 192 255)
+red=(255 255 255 91) #red values
+green=(94 255 94 172) #green values
+blue=(192 255 192 255) #blue values
 golR=
 golG=
 golB=
@@ -18,8 +18,8 @@ set_rgb() {
 
 lessormorecalcR() {
     for i in "${red[@]}"; do
-        if [ $((${red[@]} - ${red[-1]})) -le -1 ];  then  golR=L
-        elif [ $((${red[@]} - ${red[-1]})) -ge 1 ];  then golR=G
+        if [ $((${red[@]} - ${red[-1]})) -le -1 ]; then golR=L
+        elif [ $((${red[@]} - ${red[-1]})) -ge 1 ]; then golR=G
     fi
 done 
 }
@@ -39,8 +39,8 @@ fi
 
 lessormorecalcG() {
     for i in "${green[@]}"; do
-if [ $(( ${green[@]} - ${green[-1]})) -le -1 ];  then  golG=L
-elif [ $((${green[@]} - ${green[-1]})) -ge 1 ];  then golG=G
+if [ $((${green[@]} - ${green[-1]})) -le -1 ]; then golG=L
+elif [ $((${green[@]} - ${green[-1]})) -ge 1 ]; then golG=G
 fi
 done }
 
@@ -58,8 +58,8 @@ Gstopper() {
 
  lessormorecalcB() {
     for i in "${blue[@]}"; do
-if [ $((${blue[@]} - ${blue[-1]})) -le -1 ];  then  golB=L
-elif [ $((${blue[@]} - ${blue[-1]})) -ge 1 ];  then golB=G
+if [ $((${blue[@]} - ${blue[-1]})) -le -1 ]; then golB=L
+elif [ $((${blue[@]} - ${blue[-1]})) -ge 1 ]; then golB=G
 fi
 done }
 
@@ -90,11 +90,11 @@ clamp() {
 # white 255 255 255
 
 while true; do
-    lessormorecalcR
-    lessormorecalcG
-    lessormorecalcB
-        for i in $(seq 0 5 255); do
-            set_rgb "$(Rstopper "$(lessormoreR $(()))")" "$(Gstopper "$(lessormoreG $(()))")" "$(Bstopper "$(lessormoreR $(()))")"
-            sleep 0.005
-        done
+    for i in $(seq 0 5 255); do
+        lessormorecalcR
+        lessormorecalcG
+        lessormorecalcB
+        set_rgb $(Rstopper $(lessormoreR $(()))) $(Gstopper $(lessormoreG $(()))) $(Bstopper $(lessormoreB $(())))
+        sleep 0.005
+    done
 done 
