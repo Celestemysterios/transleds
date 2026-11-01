@@ -9,6 +9,9 @@ blue=(192 255 192 255) #blue values
 golR=
 golG=
 golB=
+CR=
+CG=
+CB=
 
 set_rgb() {
     echo "$1" > "$RED_LED"
@@ -25,8 +28,8 @@ done
 }
 
 lessormoreR() {
-    if  golR=L;  then echo "(($1 - i))"
-    elif golR=G;  then echo "(($1 + i))"
+    if  golR=L; then ((CR - i))
+    elif golR=G; then ((CR + i))
 fi 
 }
 
@@ -45,8 +48,8 @@ fi
 done }
 
 lessormoreG() {
-if  golG=L;  then echo "(($1 - i))"
-elif golG=G;  then echo "(($1 + i))"
+if  golG=L; then ((CG - i))
+elif golG=G; then ((CG + i))
 fi }
 
 Gstopper() {
@@ -64,8 +67,8 @@ fi
 done }
 
 lessormoreB() {
-    if  golB=L;  then echo "(($1 - i))"
-   elif golB=G;  then echo "(($1 + i))"
+    if  golB=L; then ((CB - i))
+    elif golB=G; then ((CB + i))
 fi }
 
 Bstopper() {
@@ -94,7 +97,10 @@ while true; do
         lessormorecalcR
         lessormorecalcG
         lessormorecalcB
-        set_rgb $(Rstopper $(lessormoreR $(()))) $(Gstopper $(lessormoreG $(()))) $(Bstopper $(lessormoreB $(())))
+        set_rgb $(Rstopper $(lessormoreR $())) $(Gstopper $(lessormoreG $())) $(Bstopper $(lessormoreB $()))
+        CR=RED_LED
+        CG=GREEN_LED
+        CB=BLUE_LED
         sleep 0.005
     done
 done 
